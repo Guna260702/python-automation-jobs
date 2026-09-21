@@ -9,6 +9,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends gcc \
     && apt-get remove -y gcc \
     && rm -rf /var/lib/apt/lists/*
 
-COPY leetcode_bot.py .
+COPY *.py .
 
 CMD ["python", "leetcode_bot.py"]   

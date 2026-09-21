@@ -1,0 +1,30 @@
+name: Evening Accountability Enforcer
+
+on:
+  schedule:
+    # Runs at 14:30 UTC (8:00 PM IST) every day
+    - cron: '30 14 * * *'
+  workflow_dispatch: # Allows manual testing via the GitHub Actions tab
+
+jobs:
+  run-enforcer-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Build Docker Image
+        run: docker build -t leetcode-bot .
+
+      - name: Run Enforcer Container
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
+        run: |
+          docker run --rm \
+            -e TELEGRAM_TOKEN="$TELEGRAM_TOKEN" \
+            -e TELEGRAM_CHAT_ID="$TELEGRAM_CHAT_ID" \
+            -e LEETCODE_USERNAME="$LEETCODE_USERNAME" \
+            leetcode-bot python enforcer_bot.py
