@@ -1,0 +1,21 @@
+# Virtual Environments
+bot_env/
+venv/
+.venv/
+
+# Python Bytecode
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+cron_log.txt
+leetcode.log
+
+# Secrets & Keys (Never upload these!)
+.env
+*.pem
+
+# OS & Editor Files
+.vscode/
+.DS_Store
