@@ -1,0 +1,30 @@
+name: Daily LeetCode Docker Bot
+
+on:
+  schedule:
+    # Runs at 12:30 AM UTC (6:00 AM IST) every day
+    - cron: '30 0 * * *'
+  workflow_dispatch: # Keeps the manual "Run Now" button
+
+jobs:
+  run-docker-bot:
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Build Docker Image
+        run: docker build -t leetcode-bot .
+
+      - name: Run Docker Container
+        # Pull the secrets from GitHub into the runner's environment
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # Pass those variables into the isolated Docker container using the -e flag
+        run: |
+          docker run --rm \
+            -e TELEGRAM_TOKEN="$TELEGRAM_TOKEN" \
+            -e TELEGRAM_CHAT_ID="$TELEGRAM_CHAT_ID" \
+            leetcode-bot
