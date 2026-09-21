@@ -1,11 +1,12 @@
 import requests
 import html
 import re
+import os
 import html2text
 
 # --- CONFIGURATION ---
-TELEGRAM_TOKEN = "8830301039:AAGfaD0-tWU7WAqkuRPsXYZ7YrplcDuj4Io"
-TELEGRAM_CHAT_ID = "8321315388"
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 def format_for_telegram_html(text):
     """Converts markdown to Telegram-safe HTML and wraps tables in <pre> tags."""
